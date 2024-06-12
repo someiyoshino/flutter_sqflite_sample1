@@ -1,6 +1,7 @@
 /// Dog Class, Dog Model
 /// id, name, age
 /// このDogデータモデルの生成時には、id, name, ageの3つの値を必ず渡す必要がある
+/// 生成時にバリデーションがあってもいいようだ。
 class Dog {
   final int id;
   final String name;

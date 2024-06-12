@@ -43,6 +43,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Dog(id: 0, name: name, age: age);
   }
 
+  var randomDog = () {
+    var name = WordPair.random().asLowerCase;
+    var age = Random().nextInt(10);
+    return Dog(id: 0, name: name, age: age);
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
