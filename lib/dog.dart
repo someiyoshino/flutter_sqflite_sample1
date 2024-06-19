@@ -28,6 +28,25 @@ class Dog {
     };
   }
 
+  /// insert用Mapに変換するメソッド
+  /// idは自動採番のため指定しません。
+  Map<String, dynamic> toInsertMap() {
+    return {
+      'name': name,
+      'age': age,
+    };
+  }
+
+  /// fromMap()メソッド
+  /// mapからDogモデルに変換する用
+  static Dog fromMap(Map<String, dynamic> map) {
+    return Dog(
+      id: map['id'] as int,
+      name: map['name'] as String,
+      age: map['age'] as int,
+    );
+  }
+
   // Implement toString to make it easier to see information about
   // each dog when using the print statement.
   // toString()を実装(override)する。
@@ -42,9 +61,15 @@ class Dog {
   /// toStr()メソッド
   /// 便利メソッド
   /// モデルのフィールドにアクセスする機能はmodelに寄せたほうがよいと思っている
-  String toStr() {
+  String toBody() {
     return 'id: $id / age: $age';
     // 'id: ${dogs[index].id.toString()} / age: ${dogs[index].age.toString()}'
+  }
+
+  /// タイトル文字列を返すメソッド
+  /// nameの先頭文字を大文字にして返す
+  String toTitle() {
+    return name[0].toUpperCase() + name.substring(1);
   }
 }
 

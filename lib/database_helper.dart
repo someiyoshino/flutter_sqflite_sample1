@@ -78,11 +78,12 @@ class DatabaseHelper {
       // 以下はawaitしなくてもいいかも
       await db.insert(
         _databaseTableName,
-        {
-          // dog.idは指定しない
-          'name': dog.name,
-          'age': dog.age,
-        },
+        // {
+        //   // dog.idは指定しない
+        //   'name': dog.name,
+        //   'age': dog.age,
+        // },
+        dog.toInsertMap(), // replaced!
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     } catch (e) {
@@ -128,10 +129,11 @@ class DatabaseHelper {
       // Listを生成して返す
       // この関数の返却型が示すとおり、DogモデルのListを返します
       return List.generate(maps.length, (i) {
-        final id = maps[i]['id'] as int;
-        final name = maps[i]['name'] as String;
-        final age = maps[i]['age'] as int;
-        return Dog(id: id, name: name, age: age);
+        // final id = maps[i]['id'] as int;
+        // final name = maps[i]['name'] as String;
+        // final age = maps[i]['age'] as int;
+        // return Dog(id: id, name: name, age: age);
+        return Dog.fromMap(maps[i]);
       });
     } catch (e) {
       // エラーが発生した場合の処理

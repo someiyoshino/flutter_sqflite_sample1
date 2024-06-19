@@ -181,24 +181,6 @@ class _MyHomePageState extends State<MyHomePage> {
               else
                 DogList(dogs: dogs), // レコード表示
               //
-              // Divider(),
-              //
-              // FutureBuilder<List<Dog>>(
-              //   future: loadDogs2(), // 非同期関数
-              //   builder:
-              //       (BuildContext context, AsyncSnapshot<List<Dog>> snapshot) {
-              //     if (snapshot.connectionState == ConnectionState.waiting) {
-              //       // データがまだロード中の場合は、ローディングインジケータを表示
-              //       return const CircularProgressIndicator();
-              //     } else if (snapshot.hasError) {
-              //       // エラーが発生した場合は、エラーメッセージを表示
-              //       return Text('Error: ${snapshot.error}');
-              //     } else {
-              //       // データがロードされた場合は、そのデータを使用してDogListをビルド
-              //       return DogList(dogs: snapshot.data!);
-              //     }
-              //   },
-              // )
             ],
           ),
         ),
@@ -267,12 +249,12 @@ class DogList extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return Card(
           child: ListTile(
-            title: Text(dogs[index].name),
+            title: Text(dogs[index].toTitle()),
             subtitle: Text(
               // 以下の様にモデルのフィールドにアクセスする機能はmodelに寄せたほうがよいと思っている
               // スッキリしたと思う。
               // 'id: ${dogs[index].id.toString()} / age: ${dogs[index].age.toString()}',
-              dogs[index].toStr(),
+              dogs[index].toBody(),
             ),
           ),
         );
