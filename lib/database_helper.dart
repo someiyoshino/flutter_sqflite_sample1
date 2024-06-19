@@ -66,6 +66,24 @@ class DatabaseHelper {
           ''');
   }
 
+  // レコード全取得
+  Future<List<Dog>> dogs() async {
+    try {
+      final db = await database;
+
+      // MapのListを取得
+      final List<Map<String, dynamic>> maps =
+          await db.query(_databaseTableName);
+
+      // この関数の返却型が示すとおり、DogモデルのListを返します
+      return List.generate(maps.length, (i) {
+        return Dog.fromMap(maps[i]);
+      });
+    } catch (e) {
+      throw Exception('Recordの取得に失敗しました');
+    }
+  }
+
   // レコードを1行追加
   // modelを受け取る
   // 引数としてModel（Dogインスタンス）を受け取りますが、idは自動採番のため指定しません。
@@ -84,24 +102,6 @@ class DatabaseHelper {
       );
     } catch (e) {
       throw Exception('dataのinsertに失敗しました');
-    }
-  }
-
-  // レコード全取得
-  Future<List<Dog>> dogs() async {
-    try {
-      final db = await database;
-
-      // MapのListを取得
-      final List<Map<String, dynamic>> maps =
-          await db.query(_databaseTableName);
-
-      // この関数の返却型が示すとおり、DogモデルのListを返します
-      return List.generate(maps.length, (i) {
-        return Dog.fromMap(maps[i]);
-      });
-    } catch (e) {
-      throw Exception('Recordの取得に失敗しました');
     }
   }
 
