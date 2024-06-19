@@ -121,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   debugPrint('データの取得に失敗しました: $e');
                 }
               },
-              tooltip: 'データを1件削除する',
+              tooltip: '最新データを1件削除する',
               child: const Icon(Icons.remove)),
         ],
       ),
