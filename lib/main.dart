@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'database_helper.dart';
 import 'dog.dart';
-import 'dart:math';
+import 'dart:math'; // Random
 
 void main() {
   runApp(const MyApp());
@@ -43,11 +43,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return Dog(id: 0, name: name, age: age);
   }
 
-  var randomDog = () {
-    var name = WordPair.random().asLowerCase;
-    var age = Random().nextInt(10);
-    return Dog(id: 0, name: name, age: age);
-  };
+  // Dog Function() randomDog = () {
+  //   var name = WordPair.random().asLowerCase;
+  //   var age = Random().nextInt(10);
+  //   return Dog(id: 0, name: name, age: age);
+  // };
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
           FloatingActionButton(
               onPressed: () async {
                 try {
-                  await DatabaseHelper.instance.deleteDog();
+                  await DatabaseHelper.instance.deleteLatestDog();
                   setState(() {});
                 } catch (e) {
                   debugPrint('データの取得に失敗しました: $e');
@@ -129,8 +129,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-/// DogList
-/// Dog-Model専用
 /// Dogレコードで構成されたListViewのWidgetを返します
 /// 固定型のListViewで構成されます。なので親コンテナでスクロールできると思います
 class DogList extends StatelessWidget {
@@ -151,10 +149,8 @@ class DogList extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return Card(
           child: ListTile(
-            title: Text(dogs[index].name),
-            subtitle: Text(
-              dogs[index].toStr(),
-            ),
+            title: Text(dogs[index].toTitle()),
+            subtitle: Text(dogs[index].toBody()),
           ),
         );
       },
