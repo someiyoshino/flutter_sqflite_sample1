@@ -49,6 +49,15 @@ class _MyHomePageState extends State<MyHomePage> {
   //   return Dog(id: 0, name: name, age: age);
   // };
 
+  // 状態変数です。Dogモデルのリストですね。
+  late Future<List<Dog>> _dogs;
+
+  @override
+  void initState() {
+    super.initState();
+    _dogs = DatabaseHelper.instance.dogs();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,12 +80,16 @@ class _MyHomePageState extends State<MyHomePage> {
               //
               // Body.
               FutureBuilder<List<Dog>>(
-                future: DatabaseHelper.instance.dogs(), // 非同期関数
+                // future: DatabaseHelper.instance.dogs(), // build毎にfutureされてしまう
+                future: _dogs,
                 builder:
-                    (BuildContext context, AsyncSnapshot<List<Dog>> snapshot) {
+                    // (BuildContext context, AsyncSnapshot<List<Dog>> snapshot) {
+                    (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     // loading...
                     return const CircularProgressIndicator();
+                    // return const Text('');
+                    // return Container();
                   } else if (snapshot.hasError) {
                     // Error! Why?
                     return Text('Error: ${snapshot.error}');
@@ -101,7 +114,9 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () async {
                 try {
                   await DatabaseHelper.instance.addDog(createRandomDog());
-                  setState(() {});
+                  setState(() {
+                    _dogs = DatabaseHelper.instance.dogs();
+                  });
                 } catch (e) {
                   debugPrint('データの追加に失敗しました: $e');
                 }
@@ -116,13 +131,26 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () async {
                 try {
                   await DatabaseHelper.instance.deleteLatestDog();
-                  setState(() {});
+                  setState(() {
+                    _dogs = DatabaseHelper.instance.dogs();
+                  });
                 } catch (e) {
                   debugPrint('データの取得に失敗しました: $e');
                 }
               },
               tooltip: '最新データを1件削除する',
               child: const Icon(Icons.remove)),
+          //
+          // const Gap(8),
+          //
+          // 無関係の更新の模倣
+          // FloatingActionButton(
+          //     onPressed: () {
+          //       setState(() {
+          //         // _dogs = DatabaseHelper.instance.dogs();
+          //       });
+          //     },
+          //     child: const Icon(Icons.refresh)),
         ],
       ),
     );
